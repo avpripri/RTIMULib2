@@ -48,6 +48,7 @@ RTIMUSettings *settings;
 SimpleKalmanFilter pressureKalmanFilter(1, 1, 0.01);
 SimpleKalmanFilter pitotKalmanFilter(1, 1, 0.01);
 SimpleKalmanFilter temperatureKalmanFilter(1, 1, 0.01);
+SimpleKalmanFilter TEKalmanFilter(1, 1, 0.01);
 
 //  DISPLAY_INTERVAL sets the rate at which results are displayed
 
@@ -55,7 +56,8 @@ SimpleKalmanFilter temperatureKalmanFilter(1, 1, 0.01);
 
 //  SERIAL_PORT_SPEED defines the speed to use for the debug serial port
 
-#define  SERIAL_PORT_SPEED  9600
+//#define  SERIAL_PORT_SPEED  9600
+#define  SERIAL_PORT_SPEED  115200
 
 #define ADC_CHANNEL_0 PA1
 #define CALIBRATION_PIN PA2
@@ -134,6 +136,7 @@ void loop()
     Dump("A", pitotKalmanFilter.updateEstimate(analogRead(ADC_CHANNEL_0)));
     Dump("B", pressureKalmanFilter.updateEstimate(data.pressure));
     Dump("T", temperatureKalmanFilter.updateEstimate(data.temperature));
+    Dump("E", TEKalmanFilter.updateEstimate(imu->getTotalEnergy(data.accel)));
     Serial.println();
 }
 
@@ -148,13 +151,17 @@ $--HDG,x.x,x.x,a,x.x,a*hh
 6) Checksum
 */
 
+#define NMEA_END_CHAR_1 '\n'
+#define NMEA_MAX_LENGTH 70
+
 uint8_t nmea_get_checksum(char *sentence)
 {
-	const char *n = cc + 1;
+	const char *n = sentence + 1;
 	uint8_t chk = 0;
+    uint8_t count = NMEA_MAX_LENGTH - 1;
 
 	/* While current char isn't '*' or sentence ending (newline) */
-	while ('*' != *n && NMEA_END_CHAR_1 != *n && '\0' != *n) {
+	while ('*' != *n && NMEA_END_CHAR_1 != *n && '\0' != *n && --count > 0) {
 		chk ^= (uint8_t) *n;
 		n++;
 	}

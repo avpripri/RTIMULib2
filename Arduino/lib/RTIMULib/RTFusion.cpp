@@ -50,6 +50,7 @@ RTFusion::RTFusion()
     m_gravity.setZ(1);
 
     m_slerpPower = RTQF_SLERP_POWER;
+    m_deltaTotalEnergy = 0;
 }
 
 RTFusion::~RTFusion()
@@ -109,6 +110,18 @@ void RTFusion::calculatePose(const RTVector3& accel, const RTVector3& mag, float
     }
 }
 
+RTFLOAT RTFusion::getTotalEnergy(const RTVector3 &accel)
+{
+    auto dvSqr = accel.x()*accel.x() + accel.y()*accel.y();
+    auto dzSqr = accel.z()-1.0;
+
+    const RTFLOAT zWeight = 1000.0; // factor to makeup for mass making altitude heavier than velocity
+    const RTFLOAT teDamp = 0.1; // dampen it to zero over time/
+
+    m_deltaTotalEnergy = -teDamp*m_deltaTotalEnergy + zWeight * dzSqr + dvSqr;
+
+    return m_deltaTotalEnergy;
+}
 
 RTVector3 RTFusion::getAccelResiduals()
 {
@@ -133,5 +146,6 @@ RTVector3 RTFusion::getAccelResiduals()
     residuals.setX(-(m_accel.x() - rotatedGravity.x()));
     residuals.setY(-(m_accel.y() - rotatedGravity.y()));
     residuals.setZ(-(m_accel.z() - rotatedGravity.z()));
+
     return residuals;
 }

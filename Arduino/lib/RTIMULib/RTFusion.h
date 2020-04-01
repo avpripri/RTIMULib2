@@ -68,6 +68,7 @@ public:
     //  getAccelResiduals() gets the residual after subtracting gravity
 
     RTVector3 getAccelResiduals();
+    RTFLOAT getTotalEnergy(const RTVector3 &);
 
     void setDebugEnable(bool enable) { m_debug = enable; }
 
@@ -90,6 +91,9 @@ protected:
     RTQuaternion m_rotationPower;                           // delta raised to the appopriate power
     RTVector3 m_rotationUnitVector;                         // the vector part of the rotation delta
 
+    // Used for variometer
+    RTFLOAT m_deltaTotalEnergy;                                  // Total energy 
+
     bool m_debug;
     bool m_enableGyro;                                      // enables gyro as input
     bool m_enableAccel;                                     // enables accel as input
@@ -100,6 +104,7 @@ protected:
     uint64_t m_lastFusionTime;                              // for delta time calculation
 
     static const char *m_fusionNameMap[];                   // the fusion name array
+
 };
 
 #endif // _RTFUSION_H

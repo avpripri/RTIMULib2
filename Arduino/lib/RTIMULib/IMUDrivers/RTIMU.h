@@ -160,6 +160,8 @@ public:
     const uint64_t getTimestamp() { return m_imuData.timestamp; } // gets compass data in uT
 
     RTVector3 getAccelResiduals() { return m_fusion->getAccelResiduals(); }
+    // Energy change equivilence of M/S vertical... ie change in energy equivilent to a given vertical speed of one meter per second.
+    RTFLOAT getTotalEnergy(const RTVector3 &acc) { return m_fusion->getTotalEnergy(acc); }
 
 protected:
     void gyroBiasInit();                                    // sets up gyro bias calculation
