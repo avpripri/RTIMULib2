@@ -46,21 +46,14 @@ public:
     virtual bool pressureRead(RTIMU_DATA& data);
 
 private:
-    void pressureBackground();
-    void setTestData();
+    uint32_t readRaw(unsigned char command);
+    float tempFromDT(int32_t dT);
 
     unsigned char m_pressureAddr;                           // I2C address
     RTFLOAT m_pressure;                                     // the current pressure
     RTFLOAT m_temperature;                                  // the current temperature
 
-    int m_state;
-
-    uint16_t m_calData[6];                                  // calibration data
-
-    uint32_t m_D1;
-    uint32_t m_D2;
-
-    uint64_t m_timer;                                       // used to time coversions
+    uint16_t fc[6];                                  // calibration data
 
     bool m_validReadings;
 };
