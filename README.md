@@ -1,4 +1,4 @@
-# RTIMULib2 - a versatile C++ and Python 9-dof, 10-dof and 11-dof IMU library
+# RTIMULib2 - a versatile C++ 9-dof, 10-dof and 11-dof IMU library
 
 RTIMULib2 is an easy way to connect a 9-dof, 10-dof or 11-dof IMU to more powerful 32-bit processors.  This includes STM32, ESP32 or any embedded Linux system and obtain RTQF or Kalman-filtered quaternion or Euler angle pose data. Basically, two simple function calls (IMUInit() and IMURead()) are pretty much all that's needed to integrate RTIMULib2.
 
@@ -6,7 +6,13 @@ RTIMULib2 is the second version of the original RTIMULib library. The main chang
 
 *** Magnetometer calibration is critical for good performance and, with some IMU chips, meaningful fusion results will not be obtained at all unless the magnetometers have been calibrated ***
 
-## Please note that this project is no longer active and is of historical interest only.
+## BackFlip IMU
+
+This branch of the RTIMULIB2 was back-ported to run on the STM32 processor, and can be compiled to convert many common and open source quad flight controllers.
+
+![resources/backflip1.jpg]
+
+![resources/backflip2.jpg]
 
 ## Other versions
 
