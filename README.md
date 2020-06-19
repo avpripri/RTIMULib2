@@ -10,9 +10,9 @@ RTIMULib2 is the second version of the original RTIMULib library. The main chang
 
 This branch of the RTIMULIB2 was back-ported to run on the STM32 processor, and can be compiled to convert many common and open source quad flight controllers.
 
-![resources/backflip1.jpg]
+![Backflip image](resources/backflip1.jpg)
 
-![resources/backflip2.jpg]
+![Backflip image](resources/backflip2.jpg)
 
 ## Other versions
 
